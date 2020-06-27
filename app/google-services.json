@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "931434987146",
+    "firebase_url": "https://flexyp-e1464.firebaseio.com",
+    "project_id": "flexyp-e1464",
+    "storage_bucket": "flexyp-e1464.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931434987146:android:09114ac852f0f449c53773",
+        "android_client_info": {
+          "package_name": "com.dzteamdev.flexyp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931434987146-ctlh2hk7s9lj5hekd3q585nukumvo3t3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dzteamdev.flexyp",
+            "certificate_hash": "e9e8f98e5016bc37c4e18531eab6a9a5ec24cc9f"
+          }
+        },
+        {
+          "client_id": "931434987146-7isusa09dub33esjlkdpvfn0avgeba7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARZLpItLzP2ClXuLvUlli68XAMUkm-a4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931434987146-7isusa09dub33esjlkdpvfn0avgeba7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

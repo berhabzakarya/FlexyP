@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:orientation="vertical">
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/codePinSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/codepin"
+        android:inputType="number" />
+    <Button
+        android:id="@+id/checkCode"
+        android:background="@drawable/button_style"
+        android:text="@string/check_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
