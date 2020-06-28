@@ -1,6 +1,8 @@
 package com.dzteamdev.flexyp.Model;
 
-public class Offers {
+import java.io.Serializable;
+
+public class Offers implements Serializable {
     private String name, price;
 
     public Offers() {

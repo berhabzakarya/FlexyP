@@ -25,6 +25,7 @@
         <activity android:name=".Dashboard.SettingsActivity" />
         <activity android:name=".Dashboard.CartActivity" />
         <activity android:name=".Dashboard.Products.Offers.OffersActivity" />
+        <activity android:name=".Dashboard.OfferDetailsActivity"></activity>
     </application>
 
 </manifest>

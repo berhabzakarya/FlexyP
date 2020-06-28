@@ -2,11 +2,15 @@ package com.dzteamdev.flexyp.Dashboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dzteamdev.flexyp.Dashboard.Products.BeinSport;
 import com.dzteamdev.flexyp.Dashboard.Products.GiftCard;
@@ -20,7 +24,9 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -34,6 +40,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int REQUEST = 1;
     private NavigationView navigationView;
     private String full_name;
     private TextView name;
@@ -119,6 +126,9 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.put_money:
+                showDialog();
+                break;
             case R.id.nav_cart:
                 navigationView.setCheckedItem(R.id.nav_cart);
                 startActivity(new Intent(HomeActivity.this, CartActivity.class));
@@ -139,4 +149,69 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.custom_send_msg, null);
+        LinearLayout email = view.findViewById(R.id.email);
+        LinearLayout messenger = view.findViewById(R.id.messenger);
+        LinearLayout paypal = view.findViewById(R.id.paypal);
+
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"dzdev.tm@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Send Money");
+                try {
+                    startActivityForResult(Intent.createChooser(i, "Send mail..."), REQUEST);
+
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(HomeActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        messenger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://messaging/" + "4khalil"));
+                try {
+                    startActivity(i);
+                } catch (Exception e) {
+                    Toast.makeText(HomeActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        });
+
+        paypal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(HomeActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setView(view);
+        builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST && resultCode == RESULT_OK) {
+            if (data != null) {
+                if (data.getData() != null) {
+                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            } else {
+                Toast.makeText(this, "Error Occured", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        } else {
+            Toast.makeText(this, "Error Occured", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
 }

@@ -1,23 +1,21 @@
 package com.dzteamdev.flexyp.Dashboard.Products.Offers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.dzteamdev.flexyp.Dashboard.OfferDetailsActivity;
 import com.dzteamdev.flexyp.Model.CONSTANTS;
 import com.dzteamdev.flexyp.Model.Offers;
 import com.dzteamdev.flexyp.R;
 import com.dzteamdev.flexyp.ViewHolder.OffersViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,10 +31,13 @@ public class OffersActivity extends AppCompatActivity {
     private DatabaseReference db;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
+    private Offers offer;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +57,25 @@ public class OffersActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view_offer);
         toolbar = findViewById(R.id.toolbar_offers);
     }
+
     private void loadOffers() {
         FirebaseRecyclerOptions<Offers> options =
                 new FirebaseRecyclerOptions.Builder<Offers>().setQuery(db, Offers.class).build();
         FirebaseRecyclerAdapter<Offers, OffersViewHolder> adapter =
                 new FirebaseRecyclerAdapter<Offers, OffersViewHolder>(options) {
+
                     @Override
-                    protected void onBindViewHolder(@NonNull OffersViewHolder holder, int position, @NonNull Offers model) {
+                    protected void onBindViewHolder(@NonNull OffersViewHolder holder, int position, @NonNull final Offers model) {
+                        offer = model;
                         holder.name.setText(model.getName());
                         holder.price.setText(model.getPrice());
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(OffersActivity.this, OfferDetailsActivity.class)
+                                        .putExtra(CONSTANTS.OFFER, offer));
+                            }
+                        });
                     }
 
                     @NonNull

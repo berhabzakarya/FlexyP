@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder().setDefaultFontPath("fonts/font.ttf").setFontAttrId(R.attr.fontPath).build());
         setContentView(R.layout.activity_main);
-        loadSplash();
         Paper.init(getBaseContext());
+        loadSplash();
+
 
     }
 

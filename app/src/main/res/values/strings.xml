@@ -45,4 +45,10 @@
     <string name="djezzy">Djezzy</string>
     <string name="mobilis">Mobilis</string>
     <string name="ooredoo">Ooredoo</string>
+    <string name="price">Price</string>
+    <string name="put_money_in_your_wallet">Put Money In Your Wallet</string>
+    <string name="cancel">Cancel</string>
+    <string name="send_with_messenger">Send With Messenger</string>
+    <string name="send_with_paypal">Send With Paypal</string>
+    <string name="send_with_email">Send With Email</string>
 </resources>
