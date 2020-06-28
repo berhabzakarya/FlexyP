@@ -51,4 +51,6 @@
     <string name="send_with_messenger">Send With Messenger</string>
     <string name="send_with_paypal">Send With Paypal</string>
     <string name="send_with_email">Send With Email</string>
+    <string name="empty_items">Empty Items</string>
+    <string name="total">Total :</string>
 </resources>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,13 +151,13 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater layoutInflater = this.getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.custom_send_msg, null);
         LinearLayout email = view.findViewById(R.id.email);
         LinearLayout messenger = view.findViewById(R.id.messenger);
         LinearLayout paypal = view.findViewById(R.id.paypal);
-
+        Button cancel = view.findViewById(R.id.cancel);
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +169,7 @@ public class HomeActivity extends AppCompatActivity
                     startActivityForResult(Intent.createChooser(i, "Send mail..."), REQUEST);
 
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(HomeActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "There are no email clients installed.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -180,8 +181,7 @@ public class HomeActivity extends AppCompatActivity
                 try {
                     startActivity(i);
                 } catch (Exception e) {
-                    Toast.makeText(HomeActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    finish();
+                    Toast.makeText(HomeActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -189,7 +189,13 @@ public class HomeActivity extends AppCompatActivity
         paypal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeActivity.this, "Coming soon", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Coming soon", Toast.LENGTH_LONG).show();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
             }
         });
         builder.setView(view);
@@ -203,15 +209,13 @@ public class HomeActivity extends AppCompatActivity
             if (data != null) {
                 if (data.getData() != null) {
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
-                    finish();
                 }
             } else {
                 Toast.makeText(this, "Error Occured", Toast.LENGTH_SHORT).show();
-                finish();
             }
         } else {
             Toast.makeText(this, "Error Occured", Toast.LENGTH_SHORT).show();
-            finish();
+
         }
     }
 }

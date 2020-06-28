@@ -20,6 +20,7 @@
             tools:ignore="UselessParent">
 
             <TextView
+                android:id="@+id/cart_name_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -27,6 +28,7 @@
                 android:textColor="@android:color/black" />
 
             <TextView
+                android:id="@+id/cart_price_offer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
