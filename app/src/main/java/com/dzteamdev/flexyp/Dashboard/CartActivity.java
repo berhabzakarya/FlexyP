@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -38,6 +39,7 @@ public class CartActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private double totalAmount;
     private int wallet = 0;
+    private String codePine;
 
 
     @Override
@@ -64,6 +66,11 @@ public class CartActivity extends AppCompatActivity {
         progressDialog.show();
         getMyWallet();
         AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+        View view = LayoutInflater.from(getBaseContext()).inflate(R.layout.custom_cart, null);
+        final MaterialEditText pincode = view.findViewById(R.id.checkPinCode);
+        TextView mywallet = view.findViewById(R.id.my_wallet);
+        mywallet.setText(getString(R.string.my_wallet) + wallet);
+        builder.setView(view);
         if (wallet == 0) {
             Toast.makeText(this, "You can't buy this item , check your wallet", Toast.LENGTH_SHORT).show();
         } else {
@@ -71,13 +78,24 @@ public class CartActivity extends AppCompatActivity {
                 builder.setPositiveButton("Buy", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                        if (!pincode.getText().toString().isEmpty()) {
+                            if (pincode.getText().toString().equals(codePine)) {
+                                Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            } else {
+                                pincode.setError("Wrong...");
+                                pincode.requestFocus();
+                            }
+                        } else {
+                            pincode.setError("Please type code pin");
+                            pincode.requestFocus();
+                        }
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 });
             } else {
@@ -156,4 +174,20 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    void getCodePine() {
+        FirebaseDatabase.getInstance().getReference().child("Users")
+                .child(CONSTANTS.user.getMobileNumber())
+                .child("codePin")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        codePine = snapshot.getValue(String.class);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(CartActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 }
