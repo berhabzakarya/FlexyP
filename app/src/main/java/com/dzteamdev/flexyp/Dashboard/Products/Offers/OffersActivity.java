@@ -66,12 +66,13 @@ public class OffersActivity extends AppCompatActivity {
 
                     @Override
                     protected void onBindViewHolder(@NonNull OffersViewHolder holder, int position, @NonNull final Offers model) {
-                        offer = model;
                         holder.name.setText(model.getName());
                         holder.price.setText(model.getPrice());
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                offer = model;
+                                offer.setId(type);
                                 startActivity(new Intent(OffersActivity.this, OfferDetailsActivity.class)
                                         .putExtra(CONSTANTS.OFFER, offer));
                             }

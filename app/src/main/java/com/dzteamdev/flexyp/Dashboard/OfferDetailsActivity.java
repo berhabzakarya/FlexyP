@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,10 @@ public class OfferDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_details);
         initViews();
+        name.setText(offer.getName());
+        price.setText("Price : DZD" + offer.getPrice());
+        description.setText(offer.getDescription());
+        Picasso.get().load(offer.getImg());
         collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedBar);
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedBar);
         fabFoobDetails.setOnClickListener(new View.OnClickListener() {
@@ -39,7 +44,7 @@ public class OfferDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String quantity = elegantOfferDetails.getNumber();
                 String price = offer.getPrice();
-                Orders order = new Orders(offer.getName(), quantity, price, "");
+                Orders order = new Orders(offer.getName(), quantity, price, "", offer.getId());
                 FirebaseDatabase.getInstance().getReference()
                         .child("Orders")
                         .child(CONSTANTS.user.getMobileNumber())

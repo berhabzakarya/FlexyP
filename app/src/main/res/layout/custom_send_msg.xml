@@ -109,23 +109,5 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linear_layout_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/cancel"
-                android:textColor="@android:color/white" />
-
-
-        </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

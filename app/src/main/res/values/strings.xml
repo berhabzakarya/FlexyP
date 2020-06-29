@@ -54,4 +54,6 @@
     <string name="empty_items">Empty Items</string>
     <string name="total">Total :</string>
     <string name="my_wallet">My Wallet :</string>
+    <string name="buy">Buy</string>
+    <string name="request">Request</string>
 </resources>

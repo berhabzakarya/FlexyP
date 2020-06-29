@@ -4,19 +4,34 @@ import java.io.Serializable;
 
 public class Offers implements Serializable {
     private String name, price, img;
+    private String description;
+    private String id;
 
     public Offers() {
     }
 
-    public Offers(String name, String price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public Offers(String name, String price, String img) {
+    public Offers(String name, String price, String img, String description, String id) {
         this.name = name;
         this.price = price;
         this.img = img;
+        this.description = description;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {

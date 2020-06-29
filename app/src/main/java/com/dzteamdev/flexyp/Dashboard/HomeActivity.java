@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -157,7 +156,6 @@ public class HomeActivity extends AppCompatActivity
         LinearLayout email = view.findViewById(R.id.email);
         LinearLayout messenger = view.findViewById(R.id.messenger);
         LinearLayout paypal = view.findViewById(R.id.paypal);
-        Button cancel = view.findViewById(R.id.cancel);
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +179,7 @@ public class HomeActivity extends AppCompatActivity
                 try {
                     startActivity(i);
                 } catch (Exception e) {
-                    Toast.makeText(HomeActivity.this, "Error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(HomeActivity.this, "Try Another Way To Send Your Money", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -190,12 +188,6 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Toast.makeText(HomeActivity.this, "Coming soon", Toast.LENGTH_LONG).show();
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recreate();
             }
         });
         builder.setView(view);
