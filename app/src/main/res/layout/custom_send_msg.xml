@@ -14,21 +14,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/put_money_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            android:text="@string/put_money_in_your_wallet"
             android:textColor="@android:color/black"
-            android:textSize="25sp" />
+            android:hint="Put the Price"
+            android:inputType="number"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/linear_layout_cancel"
             android:layout_below="@id/put_money_text"
             android:orientation="vertical">
 

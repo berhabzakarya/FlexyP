@@ -18,12 +18,24 @@ import com.dzteamdev.flexyp.Dashboard.Products.RechargeMobile;
 import com.dzteamdev.flexyp.Main.LoginActivity;
 import com.dzteamdev.flexyp.Model.CONSTANTS;
 import com.dzteamdev.flexyp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.FirebaseDatabase;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -45,6 +57,7 @@ public class HomeActivity extends AppCompatActivity
     private String full_name;
     private TextView name;
     private CircleImageView photo;
+    private String price;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -130,13 +143,20 @@ public class HomeActivity extends AppCompatActivity
                 showDialog();
                 break;
             case R.id.nav_cart:
+                if (CONSTANTS.user.isInStuff()) {
+                    item.setVisible(false);
+                }
                 navigationView.setCheckedItem(R.id.nav_cart);
                 startActivity(new Intent(HomeActivity.this, CartActivity.class));
+                break;
+            case R.id.nav_request:
+                startActivity(new Intent(HomeActivity.this, RequestActivity.class));
                 break;
             case R.id.nav_settings:
                 navigationView.setCheckedItem(R.id.nav_settings);
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
                 break;
+
             case R.id.nav_logout:
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                 finish();
@@ -156,18 +176,24 @@ public class HomeActivity extends AppCompatActivity
         LinearLayout email = view.findViewById(R.id.email);
         LinearLayout messenger = view.findViewById(R.id.messenger);
         LinearLayout paypal = view.findViewById(R.id.paypal);
+        final MaterialEditText text = view.findViewById(R.id.put_money_text);
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("message/rfc822");
-                i.putExtra(Intent.EXTRA_EMAIL, new String[]{"dzdev.tm@gmail.com"});
-                i.putExtra(Intent.EXTRA_SUBJECT, "Send Money");
-                try {
-                    startActivityForResult(Intent.createChooser(i, "Send mail..."), REQUEST);
-
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(HomeActivity.this, "There are no email clients installed.", Toast.LENGTH_LONG).show();
+                price = text.getText().toString();
+                if (price.isEmpty()) {
+                    text.setError("Please type your price ");
+                    text.requestFocus();
+                } else {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("message/rfc822");
+                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"dzdev.tm@gmail.com"});
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Send " + price + " DZD");
+                    try {
+                        startActivityForResult(Intent.createChooser(i, "Send mail..."), REQUEST);
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(HomeActivity.this, "There are no email clients installed.", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -175,11 +201,17 @@ public class HomeActivity extends AppCompatActivity
         messenger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://messaging/" + "4khalil"));
-                try {
-                    startActivity(i);
-                } catch (Exception e) {
-                    Toast.makeText(HomeActivity.this, "Try Another Way To Send Your Money", Toast.LENGTH_LONG).show();
+                price = text.getText().toString();
+                if (price.isEmpty()) {
+                    text.setError("Please type your price ");
+                    text.requestFocus();
+                } else {
+                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://messaging/" + "4khalil"));
+                    try {
+                        startActivity(i);
+                    } catch (Exception e) {
+                        Toast.makeText(HomeActivity.this, "Try Another Way To Send Your Money", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -200,14 +232,42 @@ public class HomeActivity extends AppCompatActivity
         if (requestCode == REQUEST && resultCode == RESULT_OK) {
             if (data != null) {
                 if (data.getData() != null) {
-                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show();
+                    setMoneyRequest();
                 }
             } else {
-                Toast.makeText(this, "Error Occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error Occurred", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "Error Occured", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error Occurred", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private void setMoneyRequest() {
+        Date date = Calendar.getInstance().getTime();
+        Date time = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa",
+                Locale.ENGLISH);
+        String var = date.toString() + " \n " + dateFormat.format(time);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("fullName", CONSTANTS.user.getFullName());
+        hashMap.put("wallet", price);
+        hashMap.put("date", var);
+        FirebaseDatabase.getInstance().getReference().child("Money").child(CONSTANTS.user.getMobileNumber()).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(HomeActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                } else {
+                    Toast.makeText(HomeActivity.this, task.getException().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(HomeActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

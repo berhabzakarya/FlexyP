@@ -6,6 +6,7 @@ public class Users {
     private String email;
     private String img;
     private String wallet;
+    private boolean inStuff;
 
     public Users() {
     }
@@ -17,6 +18,15 @@ public class Users {
         this.codePin = codePin;
         this.verifyNumber = verifyNumber;
         this.wallet = "0";
+        this.inStuff = false;
+    }
+
+    public boolean isInStuff() {
+        return inStuff;
+    }
+
+    public void setInStuff(boolean inStuff) {
+        this.inStuff = inStuff;
     }
 
     public String getWallet() {

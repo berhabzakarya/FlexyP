@@ -18,6 +18,13 @@ public class Offers implements Serializable {
         this.id = id;
     }
 
+    public Offers(String name, String price, String img, String description) {
+        this.name = name;
+        this.price = price;
+        this.img = img;
+        this.description = description;
+    }
+
     public String getId() {
         return id;
     }

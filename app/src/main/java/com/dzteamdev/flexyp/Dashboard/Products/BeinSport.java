@@ -68,6 +68,8 @@ public class BeinSport extends Fragment {
                         return new BSViewHolder(view);
                     }
                 };
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
     }
 
 }
