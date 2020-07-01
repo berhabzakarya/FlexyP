@@ -5,7 +5,7 @@
     android:id="@+id/recycler_view_types"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard.Products.Offers.OffersActivity">
+    tools:context=".Dashboard.Mobile.OffersActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

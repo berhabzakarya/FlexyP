@@ -1,14 +1,13 @@
 package com.dzteamdev.flexyp.Model;
 
 public class Orders {
-    private String productName, quantity, price, discount, type;
+    private String productName, price, discount, type;
 
     public Orders() {
     }
 
-    public Orders(String productName, String quantity, String price, String discount, String type) {
+    public Orders(String productName, String price, String discount, String type) {
         this.productName = productName;
-        this.quantity = quantity;
         this.price = price;
         this.discount = discount;
         this.type = type;
@@ -28,14 +27,6 @@ public class Orders {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
     }
 
     public String getPrice() {

@@ -2,23 +2,34 @@ package com.dzteamdev.flexyp.Model;
 
 public class Users {
 
-    private String mobileNumber, fullName, password, codePin, verifyNumber;
-    private String email;
-    private String img;
-    private String wallet;
+    private boolean verifyNumber;
+    private String mobileNumber, fullName, password, codePin, email, img, wallet;
     private boolean inStuff;
 
     public Users() {
     }
 
-    public Users(String mobileNumber, String fullName, String password, String codePin, String verifyNumber) {
+    public Users(String mobileNumber, String fullName, String password, String codePin, String email, String img, String wallet, boolean verifyNumber, boolean inStuff) {
         this.mobileNumber = mobileNumber;
         this.fullName = fullName;
         this.password = password;
         this.codePin = codePin;
+        this.email = email;
+        this.img = img;
+        this.wallet = wallet;
         this.verifyNumber = verifyNumber;
-        this.wallet = "0";
-        this.inStuff = false;
+        this.inStuff = inStuff;
+    }
+
+
+    public Users(String mobileNumber, String fullName, String password, String codePin, String email, String img, boolean inStuff) {
+        this.mobileNumber = mobileNumber;
+        this.fullName = fullName;
+        this.password = password;
+        this.codePin = codePin;
+        this.email = email;
+        this.img = img;
+        this.inStuff = inStuff;
     }
 
     public boolean isInStuff() {
@@ -85,11 +96,11 @@ public class Users {
         this.codePin = codePin;
     }
 
-    public String getVerifyNumber() {
+    public boolean getVerifyNumber() {
         return verifyNumber;
     }
 
-    public void setVerifyNumber(String verifyNumber) {
+    public void setVerifyNumber(boolean verifyNumber) {
         this.verifyNumber = verifyNumber;
     }
 }

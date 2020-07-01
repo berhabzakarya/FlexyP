@@ -1,4 +1,4 @@
-package com.dzteamdev.flexyp.Dashboard.Products;
+package com.dzteamdev.flexyp.Dashboard.Mobile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dzteamdev.flexyp.Dashboard.Products.Offers.OffersActivity;
 import com.dzteamdev.flexyp.Model.CONSTANTS;
 import com.dzteamdev.flexyp.R;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -22,15 +22,14 @@ public class RechargeMobile extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        view = LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_recharge_mobile, null);
+        view = inflater.inflate(R.layout.fragment_recharge_mobile, null);
         initViews();
         ooredoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(container.getContext(), OffersActivity.class)
-                        .putExtra(CONSTANTS.CATEGORIES, "RM")
                         .putExtra(CONSTANTS.TYPE, "ooredoo"));
             }
         });
@@ -38,7 +37,6 @@ public class RechargeMobile extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(container.getContext(), OffersActivity.class)
-                        .putExtra(CONSTANTS.CATEGORIES, "RM")
                         .putExtra(CONSTANTS.TYPE, "djezzy"));
             }
         });
@@ -46,7 +44,6 @@ public class RechargeMobile extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(container.getContext(), OffersActivity.class)
-                        .putExtra(CONSTANTS.CATEGORIES, "RM")
                         .putExtra(CONSTANTS.TYPE, "mobilis"));
             }
         });

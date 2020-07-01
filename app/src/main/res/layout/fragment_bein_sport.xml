@@ -4,6 +4,6 @@
     android:id="@+id/recycler_view_beinsport"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dashboard.Products.BeinSport">
+    tools:context=".Dashboard.BeinSport.BeinSport">
 
 </androidx.recyclerview.widget.RecyclerView>

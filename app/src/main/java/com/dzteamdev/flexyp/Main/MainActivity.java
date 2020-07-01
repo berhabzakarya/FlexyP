@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     if (password.equals(user.getPassword())) {
                         progressDialog.dismiss();
                         CONSTANTS.user = user;
-                        user.setMobileNumber(mobileNumber);
                         startActivity(new Intent(MainActivity.this, HomeActivity.class));
                         finish();
                         databaseReference.removeEventListener(this);

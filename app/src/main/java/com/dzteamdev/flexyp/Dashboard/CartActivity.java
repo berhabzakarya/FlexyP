@@ -1,6 +1,7 @@
 package com.dzteamdev.flexyp.Dashboard;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,10 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -48,6 +51,7 @@ public class CartActivity extends AppCompatActivity {
     private int wallet = 0;
     private String codePin;
     private ProgressDialog progressDialog;
+    private List<Orders> list = new ArrayList<>();
 
 
     @Override
@@ -141,7 +145,8 @@ public class CartActivity extends AppCompatActivity {
                 new FirebaseRecyclerAdapter<Orders, OrderViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull OrderViewHolder holder, int position, @NonNull Orders model) {
-                        double price = Double.parseDouble(model.getPrice()) * Double.parseDouble(model.getQuantity());
+                        list.add(model);
+                        double price = Double.parseDouble(model.getPrice());
                         holder.name.setText(model.getProductName());
                         Locale locale = new Locale("en", "DZ");
                         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
@@ -206,7 +211,7 @@ public class CartActivity extends AppCompatActivity {
                 (CONSTANTS.user.getFullName(),
                         String.valueOf(totalAmount),
                         var,
-                        "pending");
+                        "pending", list);
         FirebaseDatabase.getInstance().getReference()
                 .child("Requests")
                 .child(CONSTANTS.user.getMobileNumber()).setValue(request)
@@ -220,6 +225,7 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            getOffer();
                             Toast.makeText(CartActivity.this, "Success", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -227,6 +233,10 @@ public class CartActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void getOffer() {
+        startActivity(new Intent(CartActivity.this, MyRequestActivity.class));
     }
 
     private void initViews() {

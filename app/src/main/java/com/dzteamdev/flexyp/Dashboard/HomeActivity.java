@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dzteamdev.flexyp.Dashboard.Products.BeinSport;
-import com.dzteamdev.flexyp.Dashboard.Products.GiftCard;
-import com.dzteamdev.flexyp.Dashboard.Products.RechargeMobile;
+import com.dzteamdev.flexyp.Dashboard.BeinSport.BeinSport;
+import com.dzteamdev.flexyp.Dashboard.GiftCard.GiftCard;
+import com.dzteamdev.flexyp.Dashboard.Mobile.RechargeMobile;
 import com.dzteamdev.flexyp.Main.LoginActivity;
 import com.dzteamdev.flexyp.Model.CONSTANTS;
 import com.dzteamdev.flexyp.R;
@@ -86,10 +86,9 @@ public class HomeActivity extends AppCompatActivity
         view.setBackground(getResources().getDrawable(R.drawable.header));
         name = view.findViewById(R.id.name_header);
         photo = view.findViewById(R.id.photo_header);
-        if (CONSTANTS.user.getImg() != null) {
+        if (!CONSTANTS.user.getImg().equals("")) {
             Picasso.get().load(CONSTANTS.user.getImg()).into(photo);
         }
-
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(), FragmentPagerItems.with(this)
                 .add(R.string.rm, RechargeMobile.class)
@@ -102,7 +101,8 @@ public class HomeActivity extends AppCompatActivity
 
         SmartTabLayout viewPagerTab = findViewById(R.id.viewpagertab);
         viewPagerTab.setViewPager(viewPager);
-
+//        Intent intent = new Intent(getBaseContext(), ListenRecharge.class);
+//        startService(intent);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(new Intent(HomeActivity.this, CartActivity.class));
                 break;
             case R.id.nav_request:
-                startActivity(new Intent(HomeActivity.this, RequestActivity.class));
+                startActivity(new Intent(HomeActivity.this, MyRequestActivity.class));
                 break;
             case R.id.nav_settings:
                 navigationView.setCheckedItem(R.id.nav_settings);

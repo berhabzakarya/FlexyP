@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dzteamdev.flexyp.Dashboard.HomeActivity;
-import com.dzteamdev.flexyp.Dashboard.RequestActivity;
 import com.dzteamdev.flexyp.Model.CONSTANTS;
 import com.dzteamdev.flexyp.Model.Users;
 import com.dzteamdev.flexyp.R;
@@ -98,16 +97,9 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         progressDialog.dismiss();
                         Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                        user.setMobileNumber(mobileNumber);
                         CONSTANTS.user = user;
-                        if (user.isInStuff()) {
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
-                        } else {
-                            startActivity(new Intent(LoginActivity.this, RequestActivity.class));
-                            finish();
-                        }
-
                         databaseReference.removeEventListener(this);
 
                     } else {

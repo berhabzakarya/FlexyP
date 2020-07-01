@@ -4,37 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:elevation="25dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="25dp">
+    android:orientation="vertical"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="20dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp">
 
         <TextView
-            android:id="@+id/total_amount"
+            android:id="@+id/name_offer_myrequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:gravity="center"
+            android:text="@string/search_hint"
             android:textColor="@android:color/black"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/date_my_request"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/total_amount"
+            android:layout_below="@id/name_offer_myrequest"
+            android:text="@string/search_hint"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/date"
-            android:layout_width="match_parent"
+            android:id="@+id/price_myrequest"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/status" />
+            android:layout_below="@id/name_offer_myrequest"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/djezzy"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

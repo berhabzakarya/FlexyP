@@ -11,5 +11,6 @@ public class CONSTANTS {
     public static final int DISPLAY_LENGTH = 1500;
     public static final String CODE_SENT = "CODE_SENT";
     public static final String OFFER = "OFFER";
+    public static final String NAME_PRODUCT = "PRODUCT_NAME";
     public static Users user;
 }

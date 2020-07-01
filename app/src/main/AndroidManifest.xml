@@ -24,10 +24,13 @@
         <activity android:name=".Main.RegisterActivity" />
         <activity android:name=".Dashboard.SettingsActivity" />
         <activity android:name=".Dashboard.CartActivity" />
-        <activity android:name=".Dashboard.Products.Offers.OffersActivity" />
+        <activity android:name=".Dashboard.Mobile.OffersActivity" />
         <activity android:name=".Dashboard.OfferDetailsActivity" />
-        <activity android:name=".Dashboard.RequestActivity" />
-        <activity android:name=".Admins.HomeAdminActivity"></activity>
+        <activity android:name=".Admins.HomeAdminActivity" />
+        <activity android:name=".Dashboard.MyRequestActivity" />
+        <activity android:name=".Dashboard.BeinSport.BSOffresDetailsActivity"></activity>
+
+        <service android:name=".Service.ListenRecharge" />
     </application>
 
 </manifest>

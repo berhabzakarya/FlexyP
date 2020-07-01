@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.dzteamdev.flexyp.Model.CONSTANTS;
 import com.dzteamdev.flexyp.Model.Offers;
 import com.dzteamdev.flexyp.Model.Orders;
@@ -23,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class OfferDetailsActivity extends AppCompatActivity {
     private FloatingActionButton fabFoobDetails;
-    private ElegantNumberButton elegantOfferDetails;
     private TextView name, description, price;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Offers offer;
@@ -42,9 +40,8 @@ public class OfferDetailsActivity extends AppCompatActivity {
         fabFoobDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String quantity = elegantOfferDetails.getNumber();
                 String price = offer.getPrice();
-                Orders order = new Orders(offer.getName(), quantity, price, "", offer.getId());
+                Orders order = new Orders(offer.getName(), price, "", offer.getId());
                 FirebaseDatabase.getInstance().getReference()
                         .child("Orders")
                         .child(CONSTANTS.user.getMobileNumber())
@@ -78,7 +75,6 @@ public class OfferDetailsActivity extends AppCompatActivity {
         description = findViewById(R.id.description_offer_details);
         price = findViewById(R.id.price_offer_details);
         fabFoobDetails = findViewById(R.id.fab_offer_details);
-        elegantOfferDetails = findViewById(R.id.elegant_offer_details);
         collapsingToolbarLayout = findViewById(R.id.collapsing_offer_details);
         offer = (Offers) getIntent().getExtras().getSerializable(CONSTANTS.OFFER);
     }

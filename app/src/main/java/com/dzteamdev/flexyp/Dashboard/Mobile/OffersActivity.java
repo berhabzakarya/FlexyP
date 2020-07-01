@@ -1,4 +1,4 @@
-package com.dzteamdev.flexyp.Dashboard.Products.Offers;
+package com.dzteamdev.flexyp.Dashboard.Mobile;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,8 +21,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import androidx.annotation.NonNull;
@@ -36,13 +39,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class OffersActivity extends AppCompatActivity {
     private String type;
-    private String category;
     private DatabaseReference db;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private Offers offer;
     private FloatingActionButton addOffer;
     private FirebaseRecyclerAdapter<Offers, OffersViewHolder> adapter;
+    private boolean isExists;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -68,6 +71,7 @@ public class OffersActivity extends AppCompatActivity {
                 showDialogAddOffer();
             }
         });
+        loadOffers();
     }
 
     private void showDialogAddOffer() {
@@ -103,18 +107,8 @@ public class OffersActivity extends AppCompatActivity {
     }
 
     private void addOffer(String name, String price, String description) {
-        if (type != null) {
-            Offers offer = new Offers(name, price, "", description, type);
-        } else {
-            Offers offer = new Offers(name, price, "", description);
-        }
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Offers");
-        DatabaseReference db;
-        if (type != null) {
-            db = databaseReference.child(category);
-        } else {
-            db = databaseReference.child(category).child(type);
-        }
+        offer = new Offers(name, price, "", description, type);
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("Offers").child("RM").child(type);
         db.setValue(offer).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -135,11 +129,8 @@ public class OffersActivity extends AppCompatActivity {
 
     private void initViews() {
         addOffer = findViewById(R.id.add_offers);
-        category = getIntent().getStringExtra(CONSTANTS.CATEGORIES);
-        if (getIntent().getExtras() != null) {
-            type = getIntent().getStringExtra(CONSTANTS.TYPE);
-        }
-        db = FirebaseDatabase.getInstance().getReference().child("Offers").child(category).child(type).child("offers");
+        type = getIntent().getStringExtra(CONSTANTS.TYPE);
+        db = FirebaseDatabase.getInstance().getReference().child("Offers").child("RM").child(type).child("offers");
         recyclerView = findViewById(R.id.recycler_view_offer);
         toolbar = findViewById(R.id.toolbar_offers);
     }
@@ -147,9 +138,7 @@ public class OffersActivity extends AppCompatActivity {
     private void loadOffers() {
         FirebaseRecyclerOptions<Offers> options =
                 new FirebaseRecyclerOptions.Builder<Offers>().setQuery(db, Offers.class).build();
-        adapter =
-                new FirebaseRecyclerAdapter<Offers, OffersViewHolder>(options) {
-
+        adapter = new FirebaseRecyclerAdapter<Offers, OffersViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull OffersViewHolder holder, final int position, @NonNull final Offers model) {
                         holder.name.setText(model.getName());
@@ -162,9 +151,13 @@ public class OffersActivity extends AppCompatActivity {
                                 if (CONSTANTS.user.isInStuff()) {
                                     showDialogDeleteItems(getRef(position).getKey());
                                 } else {
-                                    startActivity(new Intent(OffersActivity.this, OfferDetailsActivity.class)
-                                            .putExtra(CONSTANTS.OFFER, offer));
-                                    finish();
+                                    if (checkIfExistsOrder()) {
+                                        Toast.makeText(OffersActivity.this, "Finish last order before purchase another.", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        startActivity(new Intent(OffersActivity.this, OfferDetailsActivity.class)
+                                                .putExtra(CONSTANTS.OFFER, offer));
+                                        finish();
+                                    }
                                 }
                             }
                         });
@@ -179,6 +172,24 @@ public class OffersActivity extends AppCompatActivity {
                 };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
+    }
+
+    private boolean checkIfExistsOrder() {
+        FirebaseDatabase.getInstance().getReference()
+                .child("Orders")
+                .child(CONSTANTS.user.getMobileNumber())
+                .child("Offers").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                isExists = snapshot.exists();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return isExists;
     }
 
     private void showDialogDeleteItems(final String ref) {
@@ -210,11 +221,5 @@ public class OffersActivity extends AppCompatActivity {
         });
         builder.show();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        loadOffers();
     }
 }

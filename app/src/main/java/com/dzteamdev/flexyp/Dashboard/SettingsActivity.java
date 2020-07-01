@@ -79,7 +79,7 @@ public class SettingsActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CONSTANTS.user.getVerifyNumber().equals("false")) {
+                if (!CONSTANTS.user.getVerifyNumber()) {
                     Toast.makeText(SettingsActivity.this, "You must to verify your number before update data", Toast.LENGTH_SHORT).show();
                 } else {
                     showDialog();
@@ -148,10 +148,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void saveImageToDatabase() {
-        final HashMap<String, Object> user = new HashMap<>();
-        user.put("img", downloadFileUrl);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
-        databaseReference.child(CONSTANTS.user.getMobileNumber()).updateChildren(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child(CONSTANTS.user.getMobileNumber()).child("img").setValue(downloadFileUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -174,7 +172,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 }
                             });
                 } else {
-                    Toast.makeText(SettingsActivity.this, "Error occured when save img to databse , " + task.getException(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingsActivity.this, "Error occurred when save img to database , " + task.getException(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

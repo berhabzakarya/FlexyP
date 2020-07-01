@@ -1,16 +1,27 @@
 package com.dzteamdev.flexyp.Model;
 
+import java.util.List;
+
 public class Requests {
     private String fullName, totalAmount, date, status;
+    private List<Orders> list;
 
     public Requests() {
     }
 
-    public Requests(String fullName, String totalAmount, String date, String status) {
+    public Requests(String fullName, String totalAmount, String date, String status, List<Orders> list) {
         this.fullName = fullName;
         this.totalAmount = totalAmount;
         this.date = date;
         this.status = status;
+    }
+
+    public List<Orders> getList() {
+        return list;
+    }
+
+    public void setList(List<Orders> list) {
+        this.list = list;
     }
 
     public String getFullName() {

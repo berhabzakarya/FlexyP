@@ -64,8 +64,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void signUP() {
         Users user = new Users(edtPhone.getText().toString(),
-                edtName.getText().toString(), edtPassword.getText().toString()
-                , edtCodePin.getText().toString(), "false");
+                edtName.getText().toString(),
+                edtPassword.getText().toString(),
+                edtCodePin.getText().toString(),
+                "",
+                "",
+                "0",
+                false,
+                false);
+
         FirebaseDatabase.getInstance().getReference().child("Users").child(edtPhone.getText().toString()).setValue(user).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
